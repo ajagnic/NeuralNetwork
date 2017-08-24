@@ -44,7 +44,7 @@ namespace NeuralNetwork
 
         /* We have an amount of layers and we know how many nodes we want... But we need each node to reference information from inputs. So each node must be an array of numbers.
          * So we need an array of arrays, but we dont want to specify the array length for each... So we use Lists for the variable size and Add to them in the loop.
-         * Finally, we convert the List to a normal array. Jagged array is simply an array of arrays, symbolized with "[][]" */
+         * Finally, we convert the List to a normal array. Jagged array is simply an array of arrays, symbolized with "[][]". */
         public void CreateNodeMatrix()
         {
             List<float[]> nodeList = new List<float[]>();
@@ -57,10 +57,38 @@ namespace NeuralNetwork
             Nodes = nodeList.ToArray();                     // conversion from List<[]> to jagged array [][]
         }
 
-        /*This will be similar to node matrix, but we go a level deeper to log the connections b/w each node, hence the 3D array "[][][]"*/
+        /* This will be similar to node matrix, but we go a level deeper to log the connections b/w each node, hence the 3D array "[][][]".
+         * Start Layer loop at i=1 since the first layer has no weighted connections.
+         * We initialize the weights to random values, these will later be adjusted with training. */
         public void CreateWeightMatrix()
         {
             List<float[][]> weightList = new List<float[][]>();
+
+            //------------------------------------
+            for (int i = 1; i < Layers.Length; i++)                         // ex. Layers[2, 3, 3, 1]
+            {
+                List<float[]> currentLayerWeights = new List<float[]>();
+
+                int nodesInPreviousLayer = Layers[i - 1];                   // ex. 2 for i=1
+
+                //--------------------------------------
+                for (int j = 0; j < Nodes[i].Length; j++)                   // ex. Nodes [ [x,x], [x,x,x]... ]
+                {
+                    float[] nodeWeights = new float[nodesInPreviousLayer];  // ex. [x,x] for i=1
+
+                    //-------------------------------------------
+                    for (int k = 0; k < nodesInPreviousLayer; k++)
+                    {
+                        nodeWeights[k] = (float)random.NextDouble() - 0.5f; //initialize with random value -0.5 to 0.5
+                    }
+
+                    currentLayerWeights.Add(nodeWeights);                   // ex. cLW [ [x,x], [x,x]... ]
+                }
+
+                weightList.Add(currentLayerWeights.ToArray());              // ex. wL [ [ [x,x], [x,x]... ] ]
+            }
+
+            Weights = weightList.ToArray();
         }
 
 
