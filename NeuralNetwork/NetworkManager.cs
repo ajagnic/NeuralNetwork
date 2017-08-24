@@ -1,7 +1,0 @@
-﻿
-namespace NeuralNetwork
-{
-    class NetworkManager
-    {
-    }
-}

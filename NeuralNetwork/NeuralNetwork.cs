@@ -163,5 +163,5 @@ namespace NeuralNetwork
         }
 
 
-    }//class
-}//namespace
+    }
+}
