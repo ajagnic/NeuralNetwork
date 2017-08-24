@@ -28,6 +28,10 @@ namespace NeuralNetwork
             CreateNodeMatrix();
             CreateWeightMatrix();
         }//--------------------------------------------------------------------------------------
+        public NeuralNetwork(NeuralNetwork otherNetwork)
+        {
+            Layers = new int[otherNetwork.Layers.Length];
+        }
 
         /* Need to place the input values into the input layer, hence targeting Nodes[0]
          * Loop through every node with a connection, and sum together every input*weight, also adding a slight bias to avoid 0.
@@ -177,6 +181,9 @@ namespace NeuralNetwork
             Fitness += newFitness;
         }
 
-
+        public int NetworkCompare(NeuralNetwork other)
+        {
+            return null;
+        }
     }
 }
