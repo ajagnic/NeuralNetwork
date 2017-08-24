@@ -30,24 +30,32 @@ namespace NeuralNetwork
         /* We want to place the input values into the input layer, hence targeting Nodes[0]
          *
          */
-        public float[] FeedForward(float[] inputs)      // ex. inputs[ 0.5, 1.0 ]
+        public float[] FeedForward(float[] inputs)         // ex. inputs[ 0.5, 1.0 ]
         {
             for (int i = 0; i < inputs.Length; i++)
             {
-                Nodes[0][i] = inputs[i];                // ex. Nodes [ [ 0.5, 1.0 ], [] ]
+                Nodes[0][i] = inputs[i];                   // ex. Nodes [ [ 0.5, 1.0 ], [...] ]
             }
 
             //------------------------------------
-            for (int i = 0; i < Layers.Length; i++)
+            for (int i = 1; i < Layers.Length; i++)
             {
                 //--------------------------------------
                 for (int j = 0; j < Nodes[i].Length; j++)
                 {
+                    float value = 0.25f;                    // const bias
 
+                    //------------------------------------------
+                    for (int k = 0; k < Nodes[i - 1].Length; k++)
+                    {
+                        value += Weights[i - 1][j][k] * Nodes[i - 1][k];
+                    }
+
+                    Nodes[i][j] = (float)Math.Tanh(value);  // activation
                 }
             }
 
-            return null;//TEMP!!
+            return Nodes[Nodes.Length - 1];                 // output layer
         }
 
         public void MutateWeights()
@@ -71,7 +79,7 @@ namespace NeuralNetwork
             Nodes = nodeList.ToArray();                     // conversion from List<[]> to jagged array [][]
         }
 
-        /* This will be similar to node matrix, but we go a level deeper to log the connections b/w each node, hence the 3D array "[][][]".
+        /* This will be similar to node matrix, but we go a level deeper to reference the connections b/w each node, hence the 3D array "[][][]".
          * Start Layer loop at i=1 since the first layer has no weighted connections.
          * We initialize the weights to random values, these will later be adjusted with mutations.
          */
