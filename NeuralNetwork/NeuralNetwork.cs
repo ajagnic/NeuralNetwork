@@ -28,7 +28,8 @@ namespace NeuralNetwork
         }//--------------------------------------------------------------------------------------
 
         /* We want to place the input values into the input layer, hence targeting Nodes[0]
-         *
+         * We loop through every node with a connection, and sum together every input*weight, also adding a slight bias to avoid 0.
+         * Then we pass this value into the activation function which outputs a range between -1 and 1.
          */
         public float[] FeedForward(float[] inputs)         // ex. inputs[ 0.5, 1.0 ]
         {
@@ -58,9 +59,46 @@ namespace NeuralNetwork
             return Nodes[Nodes.Length - 1];                 // output layer
         }
 
+        /* We want to loop through every weight, and create a probability it will be mutated.
+         * Mutations include: switch negative, new random weight, increasing by a percentage, and reducing by a percentage.
+         */
         public void MutateWeights()
         {
+            for (int i = 0; i < Weights.Length; i++)
+            {
+                for (int j = 0; j < Weights[i].Length; j++)
+                {
+                    for (int k = 0; k < Weights[i][j].Length; k++)
+                    {
+                        float Weight = Weights[i][j][k];                // all weights
 
+                        float rand = (float)random.NextDouble() * 10f;  // create range 0 - 100
+
+                        if (rand <= 2f)                                 // each has 2% prob.
+                        {
+                            Weight *= -1f;
+                        }
+                        else if(rand <= 4f)
+                        {
+                            Weight = (float)random.NextDouble() - 0.5f;
+                        }
+                        else if(rand <= 6f)
+                        {
+                            float maximize = (float)random.NextDouble() + 1f;
+
+                            Weight *= maximize;
+                        }
+                        else if(rand <= 8f)
+                        {
+                            float minimize = (float)random.NextDouble();
+
+                            Weight *= minimize;
+                        }
+
+                        Weights[i][j][k] = Weight;
+                    }
+                }
+            }
         }
 
         /* We have an amount of layers and we know how many nodes we want... But we need each node to reference information from inputs. So each node must be an array of numbers.
