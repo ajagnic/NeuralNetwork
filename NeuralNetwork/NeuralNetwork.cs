@@ -156,6 +156,21 @@ namespace NeuralNetwork
             Weights = weightList.ToArray();
         }
 
+        /* Method to create copy of weight values */
+        public void WeightCopy(float[][][] weightCopy)
+        {
+            for (int i = 0; i < Weights.Length; i++)
+            {
+                for (int j = 0; j < Weights[i].Length; j++)
+                {
+                    for (int k = 0; k < Weights[i][j].Length; k++)
+                    {
+                        Weights[i][j][k] = weightCopy[i][j][k];
+                    }
+                }
+            }
+        }
+
 
         public void AddFitness(float newFitness)
         {
