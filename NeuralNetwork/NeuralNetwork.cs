@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NeuralNetwork
 {
-    /* Fancy Description: this is a Multilayer Perceptron that learns through mutation and fitness of multiple neural nets. */
+    /* Fancy Description: this is a Multilayer Perceptron that learns through mutation and fitness of multiple neural nets. Somewhat a mashup of "Genetic Algorithms" and a vanilla neural net */
     public class NeuralNetwork
     {
         private int[] Layers;                    // ex. Layers = [2, 3, 3, 1]    ---INPUT EXAMPLE: [ 0.5, 1.0 ]
