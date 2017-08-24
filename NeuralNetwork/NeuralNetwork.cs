@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace NeuralNetwork
 {
+    /* Fancy Description: this is a Multilayer Perceptron that learns through mutation and fitness of multiple neural nets. */
     public class NeuralNetwork
     {
         private int[] Layers;                    // ex. Layers = [2, 3, 3, 1]    ---INPUT EXAMPLE: [ 0.5, 1.0 ]
 
         private float[][] Nodes;                // ex. Nodes = [currentLayer][nodes] = [i0][2] = [0][ 0.5, 1.0 ]   //REFERENCES LAYERS
 
-        private float[][][] Weights;            // ex. Weights = [''][''][prevNodes] = [i1][3][2]                //REFERENCES LAYERS, NODES
+        private float[][][] Weights;            // ex. Weights = [currentLayer][nodes][connections] = [i1][3][2]                //REFERENCES LAYERS, NODES
 
         public float Fitness { get; set; }
 
@@ -29,9 +30,9 @@ namespace NeuralNetwork
             CreateWeightMatrix();
         }//--------------------------------------------------------------------------------------
 
-        /* We want to place the input values into the input layer, hence targeting Nodes[0]
-         * We loop through every node with a connection, and sum together every input*weight, also adding a slight bias to avoid 0.
-         * Then we pass this value into the activation function which simply outputs a range between -1 and 1.
+        /* Need to place the input values into the input layer, hence targeting Nodes[0]
+         * Loop through every node with a connection, and sum together every input*weight, also adding a slight bias to avoid 0.
+         * Then pass this value into the activation function which simply outputs a range between -1 and 1.
          */
         public float[] FeedForward(float[] inputs)         // ex. inputs[ 0.5, 1.0 ]
         {
@@ -61,7 +62,7 @@ namespace NeuralNetwork
             return Nodes[Nodes.Length - 1];                 // output layer
         }
 
-        /* We want to loop through every weight, and create a probability it will be mutated.
+        /* Loop through every weight, and create a probability it will be mutated.
          * Mutations include: switch negative, new random weight, increasing by a percentage, and reducing by a percentage.
          */
         public void MutateWeights()
@@ -76,7 +77,7 @@ namespace NeuralNetwork
 
                         float rand = (float)random.NextDouble() * 10f;  // create range 0 - 100
 
-                        if (rand <= 2f)                                 // each has 2% prob.
+                        if (rand <= 2f)
                         {
                             Weight *= -1f;
                         }
@@ -105,7 +106,7 @@ namespace NeuralNetwork
 
         /* We have an amount of layers and we know how many nodes we want... But we need each node to reference information from inputs. So each node must be an array of numbers.
          * So we need an array of arrays, but we dont want to specify the array length for each... So we use Lists for the variable size and Add to them in the loop.
-         * Finally, we convert the List to a normal array. Jagged array is simply an array of arrays, symbolized with "[][]".
+         * Finally, we convert the List to a normal array.
          */
         public void CreateNodeMatrix()
         {
@@ -119,7 +120,7 @@ namespace NeuralNetwork
             Nodes = nodeList.ToArray();                     // conversion from List<[]> to jagged array [][]
         }
 
-        /* This will be similar to node matrix, but we go a level deeper to reference the connections b/w each node, hence the 3D array "[][][]". The last array will hold our values, while the previous two just reference which layer and node.
+        /* This will be similar to node matrix, but we go a level deeper to reference the connections b/w each node, hence the 3D array "[][][]". The last array holds values, while the previous two just reference which layer and node.
          * Start Layer loop at i=1 since the first layer has no weighted connections.
          * We initialize the weights to random values, these will later be adjusted with mutations.
          */
