@@ -7,9 +7,9 @@ namespace NeuralNetwork
     {
         public int[] Layers;                    // ex. Layers = [2, 3, 3, 1]    ---INPUT EXAMPLE: [ 0.5, 1 ]
 
-        private float[][] Nodes;                // ex. Nodes = [currentLayer][nodes] = [0][2] = [0][ 0.5, 1 ]   //REFERENCES LAYERS
+        private float[][] Nodes;                // ex. Nodes = [currentLayer][nodes] = [i0][2] = [0][ 0.5, 1 ]   //REFERENCES LAYERS
 
-        private float[][][] Weights;            // ex. Weights = [''][''][prevNodes] = [1][3][2]                //REFERENCES LAYERS, NODES
+        private float[][][] Weights;            // ex. Weights = [''][''][prevNodes] = [i1][3][2]                //REFERENCES LAYERS, NODES
 
         public Random random = new Random();    //RNG
 
@@ -32,12 +32,7 @@ namespace NeuralNetwork
 
         }
 
-        public void Query()
-        {
-
-        }
-
-        public void Train()
+        public void MutateWeights()
         {
 
         }
@@ -59,7 +54,7 @@ namespace NeuralNetwork
 
         /* This will be similar to node matrix, but we go a level deeper to log the connections b/w each node, hence the 3D array "[][][]".
          * Start Layer loop at i=1 since the first layer has no weighted connections.
-         * We initialize the weights to random values, these will later be adjusted with training. */
+         * We initialize the weights to random values, these will later be adjusted with mutations. */
         public void CreateWeightMatrix()
         {
             List<float[][]> weightList = new List<float[][]>();
@@ -79,7 +74,7 @@ namespace NeuralNetwork
                     //-------------------------------------------
                     for (int k = 0; k < nodesInPreviousLayer; k++)
                     {
-                        nodeWeights[k] = (float)random.NextDouble() - 0.5f; //initialize with random value -0.5 to 0.5
+                        nodeWeights[k] = (float)random.NextDouble() - 0.5f; //random value -0.5 to 0.5
                     }
 
                     currentLayerWeights.Add(nodeWeights);                   // ex. cLW [ [x,x], [x,x]... ]
