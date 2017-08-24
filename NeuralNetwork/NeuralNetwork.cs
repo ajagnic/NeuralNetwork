@@ -5,13 +5,15 @@ namespace NeuralNetwork
 {
     public class NeuralNetwork
     {
-        public int[] Layers;                    // ex. Layers = [2, 3, 3, 1]    ---INPUT EXAMPLE: [ 0.5, 1.0 ]
+        private int[] Layers;                    // ex. Layers = [2, 3, 3, 1]    ---INPUT EXAMPLE: [ 0.5, 1.0 ]
 
         private float[][] Nodes;                // ex. Nodes = [currentLayer][nodes] = [i0][2] = [0][ 0.5, 1.0 ]   //REFERENCES LAYERS
 
         private float[][][] Weights;            // ex. Weights = [''][''][prevNodes] = [i1][3][2]                //REFERENCES LAYERS, NODES
 
-        public Random random = new Random();    //RNG
+        public float Fitness { get; set; }
+
+        private Random random = new Random();    //RNG
 
         //========================================================================================
         public NeuralNetwork(int[] layerInfo)   // ex. input [2, 3, 3, 1]
@@ -29,7 +31,7 @@ namespace NeuralNetwork
 
         /* We want to place the input values into the input layer, hence targeting Nodes[0]
          * We loop through every node with a connection, and sum together every input*weight, also adding a slight bias to avoid 0.
-         * Then we pass this value into the activation function which outputs a range between -1 and 1.
+         * Then we pass this value into the activation function which simply outputs a range between -1 and 1.
          */
         public float[] FeedForward(float[] inputs)         // ex. inputs[ 0.5, 1.0 ]
         {
@@ -117,7 +119,7 @@ namespace NeuralNetwork
             Nodes = nodeList.ToArray();                     // conversion from List<[]> to jagged array [][]
         }
 
-        /* This will be similar to node matrix, but we go a level deeper to reference the connections b/w each node, hence the 3D array "[][][]".
+        /* This will be similar to node matrix, but we go a level deeper to reference the connections b/w each node, hence the 3D array "[][][]". The last array will hold our values, while the previous two just reference which layer and node.
          * Start Layer loop at i=1 since the first layer has no weighted connections.
          * We initialize the weights to random values, these will later be adjusted with mutations.
          */
@@ -152,6 +154,11 @@ namespace NeuralNetwork
             Weights = weightList.ToArray();
         }
 
+
+        public void AddFitness(float newFitness)
+        {
+            Fitness += newFitness;
+        }
 
 
     }//class
