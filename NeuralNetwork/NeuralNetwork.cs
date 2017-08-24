@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace NeuralNetwork
 {
-    /* Fancy Description: this is a Multilayer Perceptron that learns through mutation and fitness of multiple neural nets. Somewhat a mashup of "Genetic Algorithms" and a vanilla neural net */
     public class NeuralNetwork
     {
         private int[] Layers;                    // ex. Layers = [2, 3, 3, 1]    ---INPUT EXAMPLE: [ 0.5, 1.0 ]
@@ -107,6 +106,7 @@ namespace NeuralNetwork
         /* We have an amount of layers and we know how many nodes we want... But we need each node to reference information from inputs. So each node must be an array of numbers.
          * So we need an array of arrays, but we dont want to specify the array length for each... So we use Lists for the variable size and Add to them in the loop.
          * Finally, we convert the List to a normal array.
+         * Now Nodes can be used by indexing Nodes[i][j]
          */
         public void CreateNodeMatrix()
         {
@@ -120,9 +120,10 @@ namespace NeuralNetwork
             Nodes = nodeList.ToArray();                     // conversion from List<[]> to jagged array [][]
         }
 
-        /* This will be similar to node matrix, but we go a level deeper to reference the connections b/w each node, hence the 3D array "[][][]". The last array holds values, while the previous two just reference which layer and node.
+        /* This will be similar to node matrix, but we go a level further to reference the connections b/w each node.
          * Start Layer loop at i=1 since the first layer has no weighted connections.
          * We initialize the weights to random values, these will later be adjusted with mutations.
+         * The weights are now accessible by indexing Weights[i][j][k]
          */
         public void CreateWeightMatrix()
         {
