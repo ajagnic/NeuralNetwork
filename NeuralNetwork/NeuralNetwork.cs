@@ -27,7 +27,7 @@ namespace NeuralNetwork
 
             CreateNodeMatrix();
             CreateWeightMatrix();
-        }//--------------------------------------------------------------------------------------
+        }
         public NeuralNetwork(NeuralNetwork otherNetwork)
         {
             Layers = new int[otherNetwork.Layers.Length];
@@ -35,7 +35,7 @@ namespace NeuralNetwork
 
         /* Need to place the input values into the input layer, hence targeting Nodes[0]
          * Loop through every node with a connection, and sum together every input*weight, also adding a slight bias to avoid 0.
-         * Then pass this value into the activation function which simply outputs a range between -1 and 1.
+         * Then pass this value into the activation function which outputs a range between -1 and 1.
          */
         public float[] FeedForward(float[] inputs)         // ex. inputs[ 0.5, 1.0 ]
         {
@@ -108,7 +108,7 @@ namespace NeuralNetwork
         }
 
         /* Need each node to reference information from inputs. So each node must be an array of numbers.
-         * Specifing the array length for each would be lengthy...so use Lists for the variable size and Add to them in the loop.
+         * Use Lists for the variable size and Add to them in the loop.
          * Convert the List to a normal array.
          * Now Nodes can be used by indexing Nodes[i][j]
          */
@@ -124,7 +124,7 @@ namespace NeuralNetwork
             Nodes = nodeList.ToArray();                     // conversion from List<[]> to jagged array [][]
         }
 
-        /* Similar to node matrix, but we go a level further to reference the connections b/w each node.
+        /* Similar to node matrix
          * Start Layer loop at i=1 since the first layer has no weighted connections.
          * Initialize the weights to random values, these will later be adjusted with mutations.
          * The weights are now accessible by indexing Weights[i][j][k]
