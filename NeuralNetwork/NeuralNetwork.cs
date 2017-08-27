@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NeuralNetwork
 {
-    public class NeuralNetwork
+    public class NeuralNetwork : IComparable<NeuralNetwork>
     {
         private int[] Layers;                    // ex. Layers = [2, 3, 3, 1]    ---INPUT EXAMPLE: [ 0.5, 1.0 ]
 
@@ -191,7 +191,7 @@ namespace NeuralNetwork
         }
 
         /* Used for sorting of population */
-        public int NetworkCompare(NeuralNetwork other)
+        public int CompareTo(NeuralNetwork other)
         {
             if (other == null)
             {
