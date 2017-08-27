@@ -7,9 +7,9 @@ namespace NeuralNetwork
     {
         private int[] Layers;                    // ex. Layers = [2, 3, 3, 1]    ---INPUT EXAMPLE: [ 0.5, 1.0 ]
 
-        private float[][] Nodes;                // ex. Nodes = [currentLayer][nodes] = [i0][2] = [0][ 0.5, 1.0 ]   //REFERENCES LAYERS
+        private float[][] Nodes;                // ex. Nodes = [currentLayer][node] = [i0][i0] = [i0][ 0.5, 1.0 ]
 
-        private float[][][] Weights;            // ex. Weights = [currentLayer][nodes][connections] = [i1][3][2]                //REFERENCES LAYERS, NODES
+        private float[][][] Weights;            // ex. Weights = [currentLayer][node][connections] = [i1][i0][2]
 
         public float Fitness { get; set; }
 
@@ -28,9 +28,18 @@ namespace NeuralNetwork
             CreateNodeMatrix();
             CreateWeightMatrix();
         }
-        public NeuralNetwork(NeuralNetwork otherNetwork)
+        public NeuralNetwork(NeuralNetwork otherNetwork)    //network cloning
         {
             Layers = new int[otherNetwork.Layers.Length];
+
+            for (int i = 0; i < otherNetwork.Layers.Length; i++)
+            {
+                Layers[i] = otherNetwork.Layers[i];
+            }
+
+            CreateNodeMatrix();
+            CreateWeightMatrix();
+            WeightCopy(otherNetwork.Weights);
         }
 
         /* Need to place the input values into the input layer, hence targeting Nodes[0]
@@ -181,9 +190,26 @@ namespace NeuralNetwork
             Fitness += newFitness;
         }
 
+        /* Used for sorting of population */
         public int NetworkCompare(NeuralNetwork other)
         {
-            return null;
+            if (other == null)
+            {
+                return 1;
+            }
+            if (Fitness > other.Fitness)
+            {
+                return 1;
+            }
+            else if (Fitness < other.Fitness)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+
         }
     }
 }
