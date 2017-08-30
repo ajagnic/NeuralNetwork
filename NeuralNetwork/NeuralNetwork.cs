@@ -42,8 +42,8 @@ namespace NeuralNetwork
             WeightCopy(otherNetwork.Weights);
         }
 
-        /* Need to place the input values into the input layer, hence targeting Nodes[0]
-         * Loop through every node with a connection, and sum together every input*weight, also adding a slight bias to avoid 0.
+        /* Place the input values into the input layer, hence targeting Nodes[0]
+         * Loop through every node with a connection, and sum together every input*weight, adding a slight bias.
          * Then pass this value into the activation function which outputs a range between -1 and 1.
          */
         public float[] FeedForward(float[] inputs)         // ex. inputs[ 0.5, 1.0 ]
@@ -75,7 +75,6 @@ namespace NeuralNetwork
         }
 
         /* Loop through every weight, and create a probability it will be mutated.
-         * Mutations include: switch negative, new random weight, increasing by a percentage, and reducing by a percentage.
          */
         public void MutateWeights()
         {
@@ -116,10 +115,10 @@ namespace NeuralNetwork
             }
         }
 
-        /* Need each node to reference information from inputs. So each node must be an array of numbers.
-         * Use Lists for the variable size and Add to them in the loop.
+        /* Need each node to reference information from inputs. So each node must be an array.
+         * Use Lists for the variable size.
          * Convert the List to a normal array.
-         * Now Nodes can be used by indexing Nodes[i][j]
+         * Now Nodes can be indexed by Nodes[i][j]
          */
         public void CreateNodeMatrix()
         {
@@ -134,9 +133,9 @@ namespace NeuralNetwork
         }
 
         /* Similar to node matrix
-         * Start Layer loop at i=1 since the first layer has no weighted connections.
-         * Initialize the weights to random values, these will later be adjusted with mutations.
-         * The weights are now accessible by indexing Weights[i][j][k]
+         * Start Layer loop at i=1, first layer has no weighted connections.
+         * Initialize the weights to random values.
+         * The weights are now indexed by Weights[i][j][k]
          */
         public void CreateWeightMatrix()
         {
@@ -169,7 +168,7 @@ namespace NeuralNetwork
             Weights = weightList.ToArray();
         }
 
-        /* Method to create copy of weight values */
+        /* Create copy of weight values */
         public void WeightCopy(float[][][] weightCopy)
         {
             for (int i = 0; i < Weights.Length; i++)
@@ -190,7 +189,7 @@ namespace NeuralNetwork
             Fitness += newFitness;
         }
 
-        /* Used for sorting of population */
+        /* Sort by fitness */
         public int CompareTo(NeuralNetwork other)
         {
             if (other == null)
